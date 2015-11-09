@@ -23,12 +23,48 @@
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
 """Tests."""
-
 from __future__ import absolute_import, print_function
 
-from mock import MagicMock
+from celery import shared_task
+from mock import MagicMock, patch
+from pkg_resources import EntryPoint
 
 from invenio_celery import InvenioCelery
+
+
+class PointingToSharedTaskEntrypoint(EntryPoint):
+    """Custom EntryPoint."""
+
+    def __init__(self):
+        EntryPoint.__init__(
+            self, 'whatever', 'test_invenio_celery')
+
+    def load(self, require=True, *args, **kwargs):
+        raise NotImplemented("mock entrypoint")
+
+
+def _generate_fake_entrypoints(*args, **moreargs):
+    return [PointingToSharedTaskEntrypoint()]
+
+
+@shared_task
+def shared_compute():
+    """Dummy function."""
+    pass
+
+
+@patch("pkg_resources.iter_entry_points", _generate_fake_entrypoints)
+def test_enabled_autodiscovery(app):
+    """Test shared task detection."""
+    ext = InvenioCelery(app)
+    assert "test_invenio_celery.shared_compute" in ext.celery.tasks.keys()
+
+
+@patch("pkg_resources.iter_entry_points", _generate_fake_entrypoints)
+def test_disabled_autodiscovery(app):
+    """Test discovery."""
+    ext = InvenioCelery(app, entrypoint_name=None)
+    assert "projectwithsharedtask.tasks.compute" not in ext.celery.tasks.keys()
 
 
 def test_version():

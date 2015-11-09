@@ -28,22 +28,34 @@ from __future__ import absolute_import, print_function
 
 import time
 
+import pkg_resources
 from flask_celeryext import FlaskCeleryExt
 
 
 class InvenioCelery(object):
-    """Invenio theme extension."""
+    """Invenio celery extension."""
 
     def __init__(self, app=None, **kwargs):
         """Extension initialization."""
         self.celery = None
+
         if app:
             self.init_app(app, **kwargs)
 
-    def init_app(self, app, assets=None, **kwargs):
+    def init_app(self, app, assets=None,
+                 entrypoint_name="invenio_celery.tasks", **kwargs):
         """Initialize application object."""
         self.init_config(app.config)
         self.celery = FlaskCeleryExt(app).celery
+
+        if entrypoint_name:
+            all_modules = []
+            for item in pkg_resources.iter_entry_points(
+                    group=entrypoint_name):
+                all_modules.append(item.module_name)
+
+            self.celery.autodiscover_tasks(all_modules, related_name="",
+                                           force=True)
         app.extensions['invenio-celery'] = self
 
     def init_config(self, config):

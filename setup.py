@@ -102,6 +102,7 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args)
         sys.exit(errno)
 
+
 # Get the version string. Cannot be done with import!
 g = {}
 with open(os.path.join('invenio_celery', 'version.py'), 'rt') as fp:
