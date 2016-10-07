@@ -29,9 +29,9 @@ from __future__ import absolute_import, print_function
 
 import sys
 
-from celery import shared_task, Celery
-from flask import Flask
 import pytest
+from celery import Celery, shared_task
+from flask import Flask
 
 
 @pytest.yield_fixture()

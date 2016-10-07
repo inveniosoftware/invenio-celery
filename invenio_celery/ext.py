@@ -29,8 +29,8 @@ from __future__ import absolute_import, print_function
 import time
 
 import pkg_resources
-from flask_celeryext import FlaskCeleryExt
 from celery.signals import import_modules
+from flask_celeryext import FlaskCeleryExt
 
 
 class InvenioCelery(object):
