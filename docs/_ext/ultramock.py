@@ -29,10 +29,12 @@ import types
 try:
     import unittest.mock as mock
 except ImportError:
-    import mock
+    from mock import mock
 
 # skip `_is_magic` check.
 orig_is_magic = mock._is_magic
+
+
 def always_false(*args, **kwargs):
     return False
 
@@ -40,6 +42,8 @@ def always_false(*args, **kwargs):
 # avoid spec configuration for mocked classes with super classes.
 # honestly this does not happen very often and is kind of a tricky case.
 orig_mock_add_spec = mock.NonCallableMock._mock_add_spec
+
+
 def mock_add_spec_fake(self, spec, spec_set):
     orig_mock_add_spec(self, None, None)
 
@@ -77,15 +81,19 @@ class MockedModule(types.ModuleType):
 
 # overwrite imports
 orig_import = __import__
+
+
 def import_mock(name, *args, **kwargs):
     try:
         return orig_import(name, *args, **kwargs)
     except ImportError:
         return MockedModule(name)
-import_patch = mock.patch('__builtin__.__import__', side_effect=import_mock)
 
 
 # public methods
+import_patch = mock.patch('__builtin__.__import__', side_effect=import_mock)
+
+
 def activate():
     mock._is_magic = always_false
     mock.NonCallableMock._mock_add_spec = mock_add_spec_fake
