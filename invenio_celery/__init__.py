@@ -69,6 +69,26 @@ is as simple as:
     from mymoudle.tasks import sum
     result = sum.delay(2, 2)
 
+Periodic tasks
+--------------
+Periodic tasks can be configured via ``CELERYBEAT_SCHEDULE`` configuration
+variable:
+
+.. code-block:: python
+
+    # config.py
+    CELERYBEAT_SCHEDULE = {
+        'indexer': {
+            'task': 'invenio_indexer.tasks.process_bulk_queue',
+            'schedule': timedelta(minutes=5),
+        },
+    }
+
+For further information about see `Periodic Tasks
+<http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html>`_
+chapter of the `Celery documentation
+<http://docs.celeryproject.org/en/latest/index.html>`_.
+
 
 Celery workers
 --------------
