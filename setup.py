@@ -59,7 +59,7 @@ setup_requires = [
 ]
 
 install_requires = [
-    'Flask-CeleryExt>=0.2.0',
+    'Flask-CeleryExt>=0.3.0',
     'Flask>=0.11',
     'redis>=2.10.0',
     'msgpack-python>=0.4.6',
