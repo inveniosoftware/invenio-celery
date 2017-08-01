@@ -30,6 +30,7 @@ documentation.
 """
 
 BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = BROKER_URL  # For Celery 4
 """Broker settings."""
 
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
