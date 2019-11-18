@@ -46,6 +46,9 @@ install_requires = [
     'Flask>=0.11',
     'redis>=2.10.0',
     'msgpack>=0.5.2',
+    # Avoid version 4.3 it breaks the emails with datetime
+    # https://github.com/celery/celery/pull/5606
+    'celery>=4.2.1,<4.3.0',
 ]
 
 packages = find_packages()
