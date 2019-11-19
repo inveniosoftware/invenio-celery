@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.1.1 (released 2019-11-19)
+
+- pinned version of celery lower than 4.3 due to Datetime serialization
+  issues
+
 Version 1.1.0 (released 2019-06-21)
 
 - Changed the ``msgpack-python`` dependency to ``msgpack``.
