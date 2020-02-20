@@ -8,9 +8,13 @@
 Changes
 =======
 
+Version 1.1.3 (released 2020-02-21)
+
+- Removed redundant version specifier for Celery dependency.
+
 Version 1.1.2 (released 2020-02-17)
 
-- Unpinned Celery version to allow support Celery 4.4
+- Unpinned Celery version to allow support of Celery 4.4
 
 Version 1.1.1 (released 2019-11-19)
 
