@@ -49,7 +49,7 @@ install_requires = [
     # Celery 4.3 does not work with msgpack due to v4.3 introducing a
     # property "date_done" as a datetime object which msgpack cannot
     # serialize/deserialize - see https://github.com/celery/celery/pull/5606
-    'celery>=4.2.1,!=4.3,>=4.4.0',
+    'celery>=4.2.1,!=4.3',
 ]
 
 packages = find_packages()
