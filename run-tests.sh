@@ -9,7 +9,7 @@
 
 
 pydocstyle invenio_celery tests && \
-isort -rc -c -df && \
+isort invenio_celery tests --check-only --diff && \
 check-manifest --ignore ".travis-*" && \
 sphinx-build -qnNW docs docs/_build/html && \
 python setup.py test
