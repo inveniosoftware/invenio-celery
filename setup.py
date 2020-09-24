@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2020 Northwestern University.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -48,7 +49,7 @@ install_requires = [
     # Celery 4.3 does not work with msgpack due to v4.3 introducing a
     # property "date_done" as a datetime object which msgpack cannot
     # serialize/deserialize - see https://github.com/celery/celery/pull/5606
-    'celery>=4.2.1,!=4.3',
+    'celery>=4.2.1,!=4.3,<5.0.0',
     'invenio-base>=1.2.2',
 ]
 
