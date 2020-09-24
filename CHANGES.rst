@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.1 (released 2020-09-24)
+
+- Capped Celery version to < 5.0.0 until supported.
+
 Version 1.2.0 (released 2020-03-05)
 
 - added dependency on invenio-base to centralise package management
