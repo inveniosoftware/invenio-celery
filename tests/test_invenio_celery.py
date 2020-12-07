@@ -8,10 +8,9 @@
 
 """Test InvenioCelery extension."""
 
-from __future__ import absolute_import, print_function
+from unittest.mock import MagicMock, patch
 
 import pytest
-from mock import MagicMock, patch
 from pkg_resources import EntryPoint
 
 from invenio_celery import InvenioCelery

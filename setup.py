@@ -16,14 +16,7 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'mock>=1.3.0',
-    'pytest-invenio>=1.3.4',
-    # TODO: Remove all lines below with pytest-invenio v1.4.0:
-    "pytest-cov>=2.10.1",
-    "pytest-isort>=1.2.0",
-    "pytest-pycodestyle>=2.2.0",
-    "pytest-pydocstyle>=2.2.0",
-    "pytest>=6,<7",
+    'pytest-invenio>=1.4.0',
 ]
 
 extras_require = {
@@ -46,7 +39,6 @@ install_requires = [
     'Flask-CeleryExt>=0.3.4',
     'invenio-base>=1.2.3',
     'msgpack>=0.6.2',
-    'pytest-celery>=0.0.0a1',
     'redis>=2.10.0',
 ]
 
