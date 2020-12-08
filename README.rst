@@ -12,8 +12,8 @@
 .. image:: https://img.shields.io/github/license/inveniosoftware/invenio-celery.svg
         :target: https://github.com/inveniosoftware/invenio-celery/blob/master/LICENSE
 
-.. image:: https://img.shields.io/travis/inveniosoftware/invenio-celery.svg
-        :target: https://travis-ci.org/inveniosoftware/invenio-celery
+.. image:: https://github.com/inveniosoftware/invenio-celery/workflows/CI/badge.svg
+        :target: https://github.com/inveniosoftware/invenio-celery/actions?query=workflow%3ACI
 
 .. image:: https://img.shields.io/coveralls/inveniosoftware/invenio-celery.svg
         :target: https://coveralls.io/r/inveniosoftware/invenio-celery
