@@ -8,6 +8,13 @@
 Changes
 =======
 
+Version 1.2.2 (released 2020-12-09)
+
+- Removes the pytest-celery dependency as the package is still in prerelease
+  and it only affects tests. If you are using Celery 5 you may need to enable
+  the pytest celery plugin - see
+  https://docs.celeryproject.org/en/stable/userguide/testing.html#enabling
+
 Version 1.2.1 (released 2020-09-28)
 
 - Change version bounds on Celery to 4.4 to 5.1.
