@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.2.3 (released 2021-06-29)
+
+- Bans just released installation of Celery v5.0.6 as it contains a bug causing
+  tasks not to be sent.
+
 Version 1.2.2 (released 2020-12-09)
 
 - Removes the pytest-celery dependency as the package is still in prerelease
