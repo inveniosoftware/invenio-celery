@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2021      TU Wien.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -35,7 +36,7 @@ setup_requires = [
 ]
 
 install_requires = [
-    'celery>=4.4.0,<5.1',
+    'celery>=5.1.0,<5.2',
     'Flask-CeleryExt>=0.3.4',
     'invenio-base>=1.2.3',
     'msgpack>=0.6.2',
