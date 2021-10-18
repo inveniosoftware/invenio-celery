@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.2.3 (released 2021-10-18)
+
+- Changed version bounds on Celery to 5.1-5.2 (v4.x has reached end of life
+  August 2021), and there's no new LTS release yet.
+
 Version 1.2.2 (released 2020-12-09)
 
 - Removes the pytest-celery dependency as the package is still in prerelease

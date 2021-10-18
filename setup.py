@@ -38,7 +38,7 @@ setup_requires = [
 install_requires = [
     'celery>=5.1.0,<5.2',
     'Flask-CeleryExt>=0.3.4',
-    'invenio-base>=1.2.3',
+    'invenio-base>=1.2.5',
     'msgpack>=0.6.2',
     'redis>=2.10.0',
 ]
