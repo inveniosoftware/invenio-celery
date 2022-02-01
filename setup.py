@@ -36,7 +36,7 @@ setup_requires = [
 ]
 
 install_requires = [
-    'celery>=5.1.0,<5.2',
+    'celery>=5.1.0,<5.3', # remove upper pin once checked for breaking changes
     'Flask-CeleryExt>=0.3.4',
     'invenio-base>=1.2.5',
     'msgpack>=0.6.2',
