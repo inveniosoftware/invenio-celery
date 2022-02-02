@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.4 (released 2022-02-02)
+
+- Changed version bounds on Celery to 5.1-5.3.
+
 Version 1.2.3 (released 2021-10-18)
 
 - Changed version bounds on Celery to 5.1-5.2 (v4.x has reached end of life
