@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2022 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -13,18 +14,17 @@ For further Celery configuration variables see
 documentation.
 """
 
-BROKER_URL = 'redis://localhost:6379/0'
-CELERY_BROKER_URL = BROKER_URL  # For Celery 4
+broker_url = 'redis://localhost:6379/0'
 """Broker settings."""
 
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+result_backend = 'redis://localhost:6379/1'
 """The backend used to store task results."""
 
-CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
+accept_content = ['json', 'msgpack', 'yaml']
 """A whitelist of content-types/serializers."""
 
-CELERY_RESULT_SERIALIZER = 'msgpack'
+result_serializer = 'msgpack'
 """Result serialization format. Default is ``msgpack``."""
 
-CELERY_TASK_SERIALIZER = 'msgpack'
+task_serializer = 'msgpack'
 """The default serialization method to use. Default is ``msgpack``."""

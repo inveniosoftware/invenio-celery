@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2022 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -71,8 +72,16 @@ class InvenioCelery(object):
 
     def init_config(self, app):
         """Initialize configuration."""
+        config_variables = [
+            'broker_url',
+            'result_backend',
+            'accept_content',
+            'result_serializer',
+            'task_serializer',
+        ]
+
         for k in dir(config):
-            if k.startswith('CELERY_') or k.startswith('BROKER_'):
+            if k in config_variables:
                 app.config.setdefault(k, getattr(config, k))
 
     def get_queues(self):
