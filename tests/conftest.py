@@ -22,14 +22,16 @@ from flask import Flask
 def app(request):
     """Flask app fixture."""
     app = Flask("testapp")
-    app.config.update(dict(
-        CELERY_ALWAYS_EAGER=True,  # v3
-        CELERY_CACHE_BACKEND="memory",
-        CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,  # v3
-        CELERY_RESULT_BACKEND="cache",
-        CELERY_TASK_ALWAYS_EAGER=True,  # v4
-        CELERY_TASK_EAGER_PROPAGATES=True,  # v4
-    ))
+    app.config.update(
+        dict(
+            CELERY_ALWAYS_EAGER=True,  # v3
+            CELERY_CACHE_BACKEND="memory",
+            CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,  # v3
+            CELERY_RESULT_BACKEND="cache",
+            CELERY_TASK_ALWAYS_EAGER=True,  # v4
+            CELERY_TASK_EAGER_PROPAGATES=True,  # v4
+        )
+    )
 
     @shared_task
     def shared_compute():
@@ -39,17 +41,18 @@ def app(request):
     yield app
 
     import celery._state
+
     celery._state._apps.discard(
-        app.extensions['invenio-celery'].celery._get_current_object()
+        app.extensions["invenio-celery"].celery._get_current_object()
     )
     celery._state._on_app_finalizers = set()
     celery._state.set_default_app(Celery())
 
     # Clear our modules to get them re-imported by Celery.
     pkgs = [
-        'bpackage.first_tasks',
-        'bpackage.second_tasks',
-        'apackage.third_tasks',
+        "bpackage.first_tasks",
+        "bpackage.second_tasks",
+        "apackage.third_tasks",
     ]
     for pkg in pkgs:
         if pkg in sys.modules:

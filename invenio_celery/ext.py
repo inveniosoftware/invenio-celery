@@ -30,33 +30,31 @@ class InvenioCelery(object):
         if app:
             self.init_app(app, **kwargs)
 
-    def init_app(self, app, entry_point_group='invenio_celery.tasks',
-                 **kwargs):
+    def init_app(self, app, entry_point_group="invenio_celery.tasks", **kwargs):
         """Initialize application object."""
         self.init_config(app)
         self.celery = FlaskCeleryExt(app).celery
         self.entry_point_group = entry_point_group
-        app.extensions['invenio-celery'] = self
+        app.extensions["invenio-celery"] = self
 
     def load_entry_points(self):
         """Load tasks from entry points."""
         if self.entry_point_group:
             task_packages = {}
-            for item in pkg_resources.iter_entry_points(
-                    group=self.entry_point_group):
+            for item in pkg_resources.iter_entry_points(group=self.entry_point_group):
                 # Celery 4.2 requires autodiscover to be called with
                 # related_name for Python 2.7.
                 try:
-                    pkg, related_name = item.module_name.rsplit('.', 1)
+                    pkg, related_name = item.module_name.rsplit(".", 1)
                 except ValueError:
                     warnings.warn(
                         'The celery task module "{}" was not loaded. '
-                        'Defining modules in bare Python modules is no longer '
-                        'supported due to Celery v4.2 constraints. Please '
-                        'move the module into a Python package.'.format(
+                        "Defining modules in bare Python modules is no longer "
+                        "supported due to Celery v4.2 constraints. Please "
+                        "move the module into a Python package.".format(
                             item.module_name
                         ),
-                        RuntimeWarning
+                        RuntimeWarning,
                     )
                     continue
                 if related_name not in task_packages:
@@ -72,13 +70,13 @@ class InvenioCelery(object):
     def init_config(self, app):
         """Initialize configuration."""
         for k in dir(config):
-            if k.startswith('CELERY_') or k.startswith('BROKER_'):
+            if k.startswith("CELERY_") or k.startswith("BROKER_"):
                 app.config.setdefault(k, getattr(config, k))
 
     def get_queues(self):
         """Return a list of current active Celery queues."""
         res = self.celery.control.inspect().active_queues() or dict()
-        return [result.get('name') for host in res.values() for result in host]
+        return [result.get("name") for host in res.values() for result in host]
 
     def disable_queue(self, name):
         """Disable given Celery queue."""
@@ -91,8 +89,7 @@ class InvenioCelery(object):
     def get_active_tasks(self):
         """Return a list of UUIDs of active tasks."""
         current_tasks = self.celery.control.inspect().active() or dict()
-        return [
-            task.get('id') for host in current_tasks.values() for task in host]
+        return [task.get("id") for host in current_tasks.values() for task in host]
 
     def suspend_queues(self, active_queues, sleep_time=10.0):
         """Suspend Celery queues and wait for running tasks to complete."""
@@ -105,6 +102,6 @@ class InvenioCelery(object):
 @import_modules.connect()
 def celery_module_imports(sender, signal=None, **kwargs):
     """Load shared celery tasks."""
-    app = getattr(sender, 'flask_app', None)
+    app = getattr(sender, "flask_app", None)
     if app:
-        app.extensions['invenio-celery'].load_entry_points()
+        app.extensions["invenio-celery"].load_entry_points()
