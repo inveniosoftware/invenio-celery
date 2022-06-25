@@ -89,6 +89,7 @@ factory please see `Flask-CeleryExt <https://flask-celeryext.readthedocs.io/>`_
 from __future__ import absolute_import, print_function
 
 from .ext import InvenioCelery
-from .version import __version__
+
+__version__ = '1.2.4'
 
 __all__ = ('__version__', 'InvenioCelery')
