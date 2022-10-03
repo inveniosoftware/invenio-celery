@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version 1.2.5 (released 2022-10-03)
+
+- Pin importlib-metadata due to celery/kombu icompatibilities with v5.
+
 Version 1.2.4 (released 2022-02-02)
 
 - Changed version bounds on Celery to 5.1-5.3.
