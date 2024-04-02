@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 1.3.1 (released 2024-04-02)
+
+- setup: unpin importlib-metadata
+- tests: update python matrix
+
 Version 1.3.0 (released 2024-03-05)
 
 - installation: bump celery to support python 3.11
