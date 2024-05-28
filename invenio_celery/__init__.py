@@ -50,7 +50,7 @@ is as simple as:
 
 .. code-block:: python
 
-    from mymoudle.tasks import sum
+    from mymodule.tasks import sum
     result = sum.delay(2, 2)
 
 Periodic tasks
