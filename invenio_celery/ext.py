@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -72,6 +73,8 @@ class InvenioCelery(object):
         for k in dir(config):
             if k.startswith("CELERY_") or k.startswith("BROKER_"):
                 app.config.setdefault(k, getattr(config, k))
+
+        app.config.setdefault("broker_connection_retry_on_startup", True)
 
     def get_queues(self):
         """Return a list of current active Celery queues."""
