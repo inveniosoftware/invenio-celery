@@ -1,12 +1,17 @@
 ..
     This file is part of Invenio.
     Copyright (C) 2015-2024 CERN.
+    Copyright (C) 2024 Graz University of Technology.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
 Changes
 =======
+
+Version 1.3.2 (released 2024-11-26)
+
+- setup: upper pin packages
 
 Version 1.3.1 (released 2024-04-02)
 
