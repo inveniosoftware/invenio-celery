@@ -91,6 +91,6 @@ from __future__ import absolute_import, print_function
 
 from .ext import InvenioCelery
 
-__version__ = "1.3.2"
+__version__ = "2.0.0"
 
 __all__ = ("__version__", "InvenioCelery")
