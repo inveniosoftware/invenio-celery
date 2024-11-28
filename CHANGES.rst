@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version 2.0.0 (released 2024-12-02)
+
+- setup: bump invenio dependencies
+
 Version 1.3.2 (released 2024-11-26)
 
 - setup: upper pin packages
