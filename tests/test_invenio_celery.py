@@ -27,6 +27,7 @@ def _mock_entry_points(group, name=None):
             EntryPoint("bpackage_2", "bpackage.second_tasks"),
             EntryPoint("apackage", "apackage.third_tasks"),
         ],
+        "invenio_celery.signals": [],
     }
     assert name is None
     for entry_point in data[group]:

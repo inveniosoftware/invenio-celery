@@ -36,7 +36,14 @@ class InvenioCelery(object):
         self.init_config(app)
         self.celery = FlaskCeleryExt(app).celery
         self.entry_point_group = entry_point_group
+        self.load_celery_signals()
         app.extensions["invenio-celery"] = self
+
+    def load_celery_signals(self):
+        """Load Celery signals."""
+        # Import Celery signals via entry points
+        for ep in pkg_resources.iter_entry_points("invenio_celery.signals"):
+            __import__(ep.module_name)  # Just import the module to trigger registration
 
     def load_entry_points(self):
         """Load tasks from entry points."""
