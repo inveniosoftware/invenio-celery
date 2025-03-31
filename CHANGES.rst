@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version <next>
+
+- init: create broker url from its parts if available
+
 Version 2.0.0 (released 2024-12-02)
 
 - setup: bump invenio dependencies

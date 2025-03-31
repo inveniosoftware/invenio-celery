@@ -11,6 +11,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
+from flask import Flask
 from pkg_resources import EntryPoint
 
 from invenio_celery import InvenioCelery
@@ -147,3 +148,64 @@ def test_suspend_queues(app):
 
     ext.get_active_tasks = _mock
     ext.suspend_queues(["feed"], sleep_time=0.1)
+
+
+@pytest.mark.parametrize(
+    "configs, expected_url",
+    [
+        (
+            {
+                "AMQP_BROKER_USER": "testuser",
+                "AMQP_BROKER_PASSWORD": "testpassword",
+                "AMQP_BROKER_HOST": "testhost",
+                "AMQP_BROKER_PORT": "5672",
+                "AMQP_BROKER_PROTOCOL": "amqp",
+                "AMQP_BROKER_VHOST": "/testvhost",
+            },
+            "amqp://testuser:testpassword@testhost:5672/testvhost",
+        ),
+        (
+            {
+                "AMQP_BROKER_USER": "testuser",
+                "AMQP_BROKER_PASSWORD": "testpassword",
+                "AMQP_BROKER_HOST": "testhost",
+                "AMQP_BROKER_PORT": "5672",
+                "AMQP_BROKER_PROTOCOL": "amqp",
+                "AMQP_BROKER_VHOST": "testvhost",
+            },
+            "amqp://testuser:testpassword@testhost:5672/testvhost",
+        ),
+        (
+            {
+                "AMQP_BROKER_USER": "testuser",
+                "AMQP_BROKER_PASSWORD": "testpassword",
+                "AMQP_BROKER_HOST": "testhost",
+                "AMQP_BROKER_PORT": "5672",
+                "AMQP_BROKER_PROTOCOL": "amqp",
+                "AMQP_BROKER_VHOST": "",
+            },
+            "amqp://testuser:testpassword@testhost:5672/",
+        ),
+        (
+            {
+                "AMQP_BROKER_USER": "testuser",
+                "AMQP_BROKER_PASSWORD": "testpassword",
+                "AMQP_BROKER_HOST": "testhost",
+                "AMQP_BROKER_PORT": "5672",
+                "AMQP_BROKER_PROTOCOL": "amqp",
+            },
+            "amqp://testuser:testpassword@testhost:5672/",
+        ),
+        (
+            {},
+            "redis://localhost:6379/0",
+        ),
+    ],
+)
+def test_build_broker_url_with_vhost(configs, expected_url):
+    """Test building broker URL with vhost."""
+    app = Flask("test_app")
+    assert "BROKER_URL" not in app.config
+    app.config.update(configs)
+    InvenioCelery(app)
+    assert app.config["BROKER_URL"] == expected_url
