@@ -68,8 +68,41 @@ class InvenioCelery(object):
                         packages, related_name=related_name, force=True
                     )
 
+    def build_broker_url(self, app):
+        """Return the broker connection string if configured or build it from its parts.
+
+        If set, then ``BROKER_URL`` will be returned.
+        Otherwise, the URI will be pieced together by the configuration items
+        ``AMQP_BROKER_{USER,PASSWORD,HOST,PORT,NAME,PROTOCOL}``.
+        If that cannot be done (e.g. because required values are missing), then
+        ``None`` will be returned.
+
+        Note: see: https://docs.celeryq.dev/en/stable/userguide/configuration.html#new-lowercase-settings
+        """
+        if uri := app.config.get("BROKER_URL"):
+            return uri
+
+        params = {}
+        for config_name in ["USER", "PASSWORD", "HOST", "PORT", "VHOST", "PROTOCOL"]:
+            params[config_name] = app.config.get(f"AMQP_BROKER_{config_name}", None)
+
+        required_params = ["USER", "PASSWORD", "HOST", "PORT", "PROTOCOL"]
+        if all({params.get(p, None) for p in required_params}):
+            vhost = (params.get("VHOST") or "").lstrip("/")
+            uri = f"{params['PROTOCOL']}://{params['USER']}:{params['PASSWORD']}@{params['HOST']}:{params['PORT']}/{vhost}"
+            return uri
+        elif any(params.values()):
+            app.logger.warn(
+                'Ignoring "AMQP_BROKER_*" config values as they are only partially set.'
+            )
+
+        return None
+
     def init_config(self, app):
         """Initialize configuration."""
+        if broker_url := self.build_broker_url(app):
+            app.config["BROKER_URL"] = broker_url
+
         for k in dir(config):
             if k.startswith("CELERY_") or k.startswith("BROKER_"):
                 app.config.setdefault(k, getattr(config, k))
