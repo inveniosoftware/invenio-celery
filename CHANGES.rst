@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version 2.1.0 (released 2025-04-28)
+
+- ext: add celery signals entrypoint
+
 Version 2.0.0 (released 2024-12-02)
 
 - setup: bump invenio dependencies
