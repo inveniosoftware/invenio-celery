@@ -2,36 +2,62 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Test InvenioCelery extension."""
 
+from importlib.metadata import EntryPoint
 from unittest.mock import MagicMock, patch
 
 import pytest
-from pkg_resources import EntryPoint
 
 from invenio_celery import InvenioCelery
 
 
-def _mock_entry_points(group, name=None):
+def _mock_entry_points(group=None, name=None):
     """Return EntryPoints from different groups."""
     data = {
-        "only_first_tasks": [EntryPoint("bpackage", "bpackage.first_tasks")],
-        "only_second_tasks": [EntryPoint("bpackage", "bpackage.second_tasks")],
-        "bare_module_tasks": [EntryPoint("second_tasks", "second_tasks")],
+        "only_first_tasks": [
+            EntryPoint(
+                name="bpackage", value="bpackage.first_tasks", group="only_first_tasks"
+            )
+        ],
+        "only_second_tasks": [
+            EntryPoint(
+                name="bpackage",
+                value="bpackage.second_tasks",
+                group="only_second_tasks",
+            )
+        ],
+        "bare_module_tasks": [
+            EntryPoint(
+                name="second_tasks", value="second_tasks", group="bare_module_tasks"
+            )
+        ],
         "invenio_celery.tasks": [
-            EntryPoint("bpackage_1", "bpackage.first_tasks"),
-            EntryPoint("bpackage_2", "bpackage.second_tasks"),
-            EntryPoint("apackage", "apackage.third_tasks"),
+            EntryPoint(
+                name="bpackage_1",
+                value="bpackage.first_tasks",
+                group="invenio_celery.tasks",
+            ),
+            EntryPoint(
+                name="bpackage_2",
+                value="bpackage.second_tasks",
+                group="invenio_celery.tasks",
+            ),
+            EntryPoint(
+                name="apackage",
+                value="apackage.third_tasks",
+                group="invenio_celery.tasks",
+            ),
         ],
         "invenio_celery.signals": [],
     }
     assert name is None
-    for entry_point in data[group]:
-        yield entry_point
+    return data[group] if group else data
 
 
 def test_version():
@@ -56,7 +82,7 @@ def test_init(app):
     assert called["test1"]
 
 
-@patch("pkg_resources.iter_entry_points", _mock_entry_points)
+@patch("importlib.metadata.entry_points", _mock_entry_points)
 def test_enabled_autodiscovery(app):
     """Test shared task detection."""
     ext = InvenioCelery(app)
@@ -68,7 +94,7 @@ def test_enabled_autodiscovery(app):
     assert "apackage.third_tasks.third_task" in ext.celery.tasks.keys()
 
 
-@patch("pkg_resources.iter_entry_points", _mock_entry_points)
+@patch("importlib.metadata.entry_points", _mock_entry_points)
 def test_only_first_tasks(app):
     """Test loading different entrypoint group."""
     ext = InvenioCelery(app, entry_point_group="only_first_tasks")
@@ -80,7 +106,7 @@ def test_only_first_tasks(app):
     assert "apackage.third_tasks.third_task" not in ext.celery.tasks.keys()
 
 
-@patch("pkg_resources.iter_entry_points", _mock_entry_points)
+@patch("importlib.metadata.entry_points", _mock_entry_points)
 def test_bare_module_warning(app):
     """Test loading different entrypoint group."""
     ext = InvenioCelery(app, entry_point_group="bare_module_tasks")
@@ -99,7 +125,7 @@ def test_disabled_autodiscovery(app):
     assert "apackage.third_tasks.third_task" not in ext.celery.tasks.keys()
 
 
-@patch("pkg_resources.iter_entry_points", _mock_entry_points)
+@patch("importlib.metadata.entry_points", _mock_entry_points)
 def test_worker_loading(app):
     """Test that tasks are only loaded on the worker."""
     ext = InvenioCelery(app)
