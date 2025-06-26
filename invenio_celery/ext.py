@@ -2,7 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2018 CERN.
-# Copyright (C) 2024 Graz University of Technology.
+# Copyright (C) 2024-2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -14,9 +14,9 @@ from __future__ import absolute_import, print_function
 import time
 import warnings
 
-import pkg_resources
 from celery.signals import import_modules
 from flask_celeryext import FlaskCeleryExt
+from invenio_base.utils import entry_points
 
 from . import config
 
@@ -42,26 +42,25 @@ class InvenioCelery(object):
     def load_celery_signals(self):
         """Load Celery signals."""
         # Import Celery signals via entry points
-        for ep in pkg_resources.iter_entry_points("invenio_celery.signals"):
-            __import__(ep.module_name)  # Just import the module to trigger registration
+        for ep in entry_points(group="invenio_celery.signals"):
+            __import__(ep.module)  # Just import the module to trigger registration
 
     def load_entry_points(self):
         """Load tasks from entry points."""
         if self.entry_point_group:
             task_packages = {}
-            for item in pkg_resources.iter_entry_points(group=self.entry_point_group):
+
+            for ep in entry_points(group=self.entry_point_group):
                 # Celery 4.2 requires autodiscover to be called with
                 # related_name for Python 2.7.
                 try:
-                    pkg, related_name = item.module_name.rsplit(".", 1)
+                    pkg, related_name = ep.module.rsplit(".", 1)
                 except ValueError:
                     warnings.warn(
                         'The celery task module "{}" was not loaded. '
                         "Defining modules in bare Python modules is no longer "
                         "supported due to Celery v4.2 constraints. Please "
-                        "move the module into a Python package.".format(
-                            item.module_name
-                        ),
+                        "move the module into a Python package.".format(ep.module),
                         RuntimeWarning,
                     )
                     continue
