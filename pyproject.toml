@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2021-2026 TU Wien.
 # SPDX-FileCopyrightText: 2022-2025 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 Northwestern University.
+# SPDX-FileCopyrightText: 2026 CESNET a.l.e.
 # SPDX-License-Identifier: MIT
 
 [project]
@@ -21,7 +22,7 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
 ]
 dependencies = [
-  "celery>=5.1.0,<5.5",
+  "celery>=5.1.0,<6.0.0",
   "flask-celeryext>=0.3.4",
   "invenio-base>=2.3.0,<3.0.0",
   "msgpack>=0.6.2",
